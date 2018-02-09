@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Amazon.Lambda.Tools" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Amazon.Lambda.Serialization.Json" Version="1.1.0" />
+    <PackageReference Include="AngleSharp" Version="0.9.9.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure\Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="NotifySoccerBetTiming">
+      <HintPath>..\..\..\..\Downloads\NotifySoccerBetTiming-830f4d06-e6f2-438a-9162-ba7794eafe9b\NotifySoccerBetTiming.dll</HintPath>
+    </Reference>
+    <Reference Include="SoccerBetReport">
+      <HintPath>..\..\..\..\Downloads\SoccerDailyReport-25105d98-0064-43d4-aaf1-becc77abba6b\SoccerBetReport.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
