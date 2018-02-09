@@ -11,9 +11,11 @@ namespace SoccerDataReporter
 	{
 		private static ScrapeService ScrapeService => new ScrapeService();
 
-		private static NotificationService NotificationService => new NotificationService();
+		private static NotificationService NotificationService => new NotificationService(_context);
 
 		private static SoccerDataAccessor SoccerDataAccessor => new SoccerDataAccessor();
+
+		private static ILambdaContext _context;
 
 		/// <summary>
 		/// A simple function that takes a string and does a ToUpper
@@ -23,6 +25,7 @@ namespace SoccerDataReporter
 		/// <returns></returns>
 		public async Task<dynamic> FunctionHandler(dynamic input, ILambdaContext context)
 		{
+			_context = context;
 			context.Logger.LogLine($"SoccerDataReporter start at {DateTime.Now:yyyy-MM-dd HH:mm}");
 			context.Logger.LogLine($"input: {input}");
 

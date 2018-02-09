@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Amazon.Lambda.Core;
 using Model;
 using Newtonsoft.Json;
 
@@ -16,10 +17,19 @@ namespace SoccerDataReporter
 		private static string LineApiRootEndpoint => "https://api.line.me";
 		private static string LineApiPushMessageEndpoint => LineApiRootEndpoint + "/v2/bot/message/push";
 
+		private static ILambdaContext _context;
+
+		public NotificationService(ILambdaContext context)
+		{
+			_context = context;
+		}
+
 		public async Task<string> PushMessagesAsync(IEnumerable<Report> reports)
 		{
 			const string type = "text";
 			var messages = GenerateMessage(reports);
+			if (messages.All(string.IsNullOrEmpty))
+				return null;
 
 			var lineMessage = new LinePushMessages
 			{
@@ -28,6 +38,7 @@ namespace SoccerDataReporter
 			};
 
 			var json = JsonConvert.SerializeObject(lineMessage);
+			_context.Logger.LogLine($"line push message request: {json}");
 
 			using (var client = new HttpClient())
 			{
@@ -108,7 +119,6 @@ namespace SoccerDataReporter
 				}
 			}
 
-			message += "\n";
 			if (method1All != 0) message += $"M1 勝率： {(decimal) method1Win / method1All:P0}\n";
 			if (method2All != 0) message += $"M2 勝率： {(decimal) method2Win / method2All:P0}\n";
 			if (method3All != 0) message += $"M3 勝率： {(decimal) method3Win / method3All:P0}\n";
