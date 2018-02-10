@@ -95,7 +95,7 @@ namespace SoccerDataCollector
 				.ToList();
 
 			var home = common
-				.Where(g => g.HomeOdds < g.AwayOdds / 7)
+				.Where(g => g.HomeOdds < g.AwayOdds / 9)
 				.Where(g => g.HomeDangerousAttacks >= g.AwayDangerousAttacks * 1.8)
 				.Where(g => g.HomeAttacks >= g.AwayAttacks)
 				.Where(g => g.HomeOnTarget + g.HomeOffTarget > g.AwayOnTarget + g.AwayOffTarget)
@@ -103,7 +103,7 @@ namespace SoccerDataCollector
 				.ToList();
 
 			var away = common
-				.Where(g => g.AwayOdds < g.HomeOdds / 7)
+				.Where(g => g.AwayOdds < g.HomeOdds / 9)
 				.Where(g => g.AwayDangerousAttacks >= g.HomeDangerousAttacks * 1.8)
 				.Where(g => g.AwayAttacks >= g.HomeAttacks)
 				.Where(g => g.AwayOnTarget + g.AwayOffTarget > g.HomeOnTarget + g.HomeOffTarget)
