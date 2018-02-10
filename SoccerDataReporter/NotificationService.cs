@@ -17,14 +17,7 @@ namespace SoccerDataReporter
 		private static string LineApiRootEndpoint => "https://api.line.me";
 		private static string LineApiPushMessageEndpoint => LineApiRootEndpoint + "/v2/bot/message/push";
 
-		private static ILambdaContext _context;
-
-		public NotificationService(ILambdaContext context)
-		{
-			_context = context;
-		}
-
-		public async Task<string> PushMessagesAsync(IEnumerable<Report> reports)
+		public async Task<string> PushMessagesAsync(IEnumerable<Report> reports, ILambdaContext context)
 		{
 			const string type = "text";
 			var messages = GenerateMessage(reports);
@@ -38,7 +31,7 @@ namespace SoccerDataReporter
 			};
 
 			var json = JsonConvert.SerializeObject(lineMessage);
-			_context.Logger.LogLine($"line push message request: {json}");
+			context.Logger.LogLine($"line push message request: {json}");
 
 			using (var client = new HttpClient())
 			{

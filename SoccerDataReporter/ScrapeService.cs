@@ -11,9 +11,8 @@ namespace SoccerDataReporter
 {
 	public class ScrapeService
 	{
-		public async Task<IEnumerable<Report>> GetGameEventsAsync(IEnumerable<Report> games)
+		public async Task<IList<Report>> GetGameEventsAsync(IList<Report> games)
 		{
-			games = games.ToList();
 			foreach (var game in games)
 			{
 				var gameDetail = await GetHtmlDocumentAsync(game.DetailUrl);

@@ -11,7 +11,7 @@ namespace SoccerDataReporter
 	{
 		private static string DynamodbDailyReportTableName => "SoccerDailyReport";
 
-		public async Task<IEnumerable<Report>> GetGamesForReportAsync(string date)
+		public async Task<IList<Report>> GetGamesForReportAsync(string date)
 		{
 			var request = new QueryRequest
 			{
@@ -40,7 +40,7 @@ namespace SoccerDataReporter
 							DrawOdds = i.TryGetValue(nameof(Report.DrawOdds), out AttributeValue drawOdds) ? decimal.Parse(drawOdds.S) : default(decimal),
 							AwayOdds = i.TryGetValue(nameof(Report.HomeOdds), out AttributeValue awayOdds) ? decimal.Parse(awayOdds.S) : default(decimal),
 							Category = i.TryGetValue(nameof(Report.Category), out AttributeValue category) ? category.S : default(string),
-						});
+						}).ToList();
 			}
 		}
 	}

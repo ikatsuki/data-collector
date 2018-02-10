@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Amazon.Lambda.Core;
 
@@ -11,11 +12,9 @@ namespace SoccerDataReporter
 	{
 		private static ScrapeService ScrapeService => new ScrapeService();
 
-		private static NotificationService NotificationService => new NotificationService(_context);
+		private static NotificationService NotificationService => new NotificationService();
 
 		private static SoccerDataAccessor SoccerDataAccessor => new SoccerDataAccessor();
-
-		private static ILambdaContext _context;
 
 		/// <summary>
 		/// A simple function that takes a string and does a ToUpper
@@ -25,14 +24,16 @@ namespace SoccerDataReporter
 		/// <returns></returns>
 		public async Task<dynamic> FunctionHandler(dynamic input, ILambdaContext context)
 		{
-			_context = context;
-			context.Logger.LogLine($"SoccerDataReporter start at {DateTime.Now:yyyy-MM-dd HH:mm}");
+			var now = DateTime.Now;
+			context.Logger.LogLine($"SoccerDataReporter start at {now:yyyy-MM-dd HH:mm}");
 			context.Logger.LogLine($"input: {input}");
 
-			var date = $"{DateTime.Now:yyyyMMdd}";
-			var reports = await SoccerDataAccessor.GetGamesForReportAsync(date);
+			var reportDate = $"{now:yyyyMMdd}";
+			var reports = await SoccerDataAccessor.GetGamesForReportAsync(reportDate);
 			reports = await ScrapeService.GetGameEventsAsync(reports);
-			var reportMessage = await NotificationService.PushMessagesAsync(reports);
+			context.Logger.LogLine($"report count: {reports.Count}");
+
+			var reportMessage = await NotificationService.PushMessagesAsync(reports, context);
 
 			context.Logger.LogLine("SoccerDataReporter end");
 
