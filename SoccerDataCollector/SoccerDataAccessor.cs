@@ -71,6 +71,7 @@ namespace SoccerDataCollector
 
 		public async Task<PutItemResponse[]> PutReportAsync(IEnumerable<Game> games)
 		{
+			var date = $"{DateTime.Now:yyyyMMdd}";
 			var targetGamesTasks = games.Select(async game =>
 			{
 				using (var client = new AmazonDynamoDBClient())
@@ -80,10 +81,10 @@ namespace SoccerDataCollector
 						TableName = DynamodbReportTableName,
 						Item = new Dictionary<string, AttributeValue>
 						{
-							{nameof(Report.Date), new AttributeValue {S = game.Id}},
+							{nameof(Report.Date), new AttributeValue {S = date}},
+							{nameof(Report.Id), new AttributeValue {S = game.Id}},
 							{nameof(Report.Method), new AttributeValue {N = game.Method.ToString()}},
 							{nameof(Report.Time), new AttributeValue {N = game.Time.ToString()}},
-							{nameof(Report.Id), new AttributeValue {S = game.Id.ToString()}},
 							{nameof(Report.DetailUrl), new AttributeValue {S = game.DetailUrl}},
 							{nameof(Report.HomeScore), new AttributeValue {N = game.HomeScore.ToString()}},
 							{nameof(Report.AwayScore), new AttributeValue {N = game.AwayScore.ToString()}},

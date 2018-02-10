@@ -37,12 +37,14 @@ namespace SoccerDataCollector
 				.ToList();
 
 			var targetGames = home.Concat(away).ToList();
+			SetMethodNo(1, ref targetGames);
+
 			foreach (var game in home.Concat(away))
 			{
 				var savedGameId = await SoccerDataAccessor.GetGameId(game.Id);
 				targetGames.RemoveAll(g => g.Id == savedGameId);
 			}
-			
+
 			return targetGames;
 		}
 
@@ -71,6 +73,8 @@ namespace SoccerDataCollector
 				.ToList();
 
 			var targetGames = home.Concat(away).ToList();
+			SetMethodNo(2, ref targetGames);
+
 			foreach (var game in home.Concat(away))
 			{
 				var savedGameId = await SoccerDataAccessor.GetGameId(game.Id);
@@ -107,6 +111,8 @@ namespace SoccerDataCollector
 				.ToList();
 
 			var targetGames = home.Concat(away).ToList();
+			SetMethodNo(3, ref targetGames);
+
 			foreach (var game in home.Concat(away))
 			{
 				var savedGameId = await SoccerDataAccessor.GetGameId(game.Id);
@@ -114,6 +120,15 @@ namespace SoccerDataCollector
 			}
 
 			return targetGames;
+		}
+
+		private static void SetMethodNo(int methodNo, ref List<Game> games)
+		{
+			foreach (var targetGame in games)
+			{
+				targetGame.Id = $"{targetGame.Method}${methodNo}";
+				targetGame.Method = methodNo;
+			}
 		}
 	}
 }
