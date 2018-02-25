@@ -112,9 +112,9 @@ namespace SoccerDataReporter
 				}
 			}
 
-			if (method1All != 0) message += $"M1 勝率： {(decimal) method1Win / method1All:P0}\n";
-			if (method2All != 0) message += $"M2 勝率： {(decimal) method2Win / method2All:P0}\n";
-			if (method3All != 0) message += $"M3 勝率： {(decimal) method3Win / method3All:P0}\n";
+			if (method1All != 0) message += $"M1 勝率： {method1Win}/{method1All} = {(decimal) method1Win / method1All:P0}\n";
+			if (method2All != 0) message += $"M2 勝率： {method2Win}/{method2All} = {(decimal) method2Win / method2All:P0}\n";
+			if (method3All != 0) message += $"M3 勝率： {method3Win}/{method3All} = {(decimal) method3Win / method3All:P0}\n";
 			return SubstringAtCount(message, 2000);
 		}
 

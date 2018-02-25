@@ -57,23 +57,15 @@ namespace SoccerDataCollector
 					if (teamAnalytics5Element == null) return game;
 
 					var homeAnalytics = teamAnalytics5Element[0].GetElementsByTagName("td");
-					game.HomeAvgHalfGoals = decimal.TryParse(homeAnalytics[0].TextContent, out decimal homeAvgHalfGoals)
-						? homeAvgHalfGoals
-						: 0;
+					game.HomeAvgHalfGoals = decimal.TryParse(homeAnalytics[0].TextContent, out decimal homeAvgHalfGoals) ? homeAvgHalfGoals : 0;
 					game.HomeAvgGoals = decimal.TryParse(homeAnalytics[1].TextContent, out decimal homeAvgGoals) ? homeAvgGoals : 0;
-					game.HomeAvgHalfLosts = decimal.TryParse(homeAnalytics[2].TextContent, out decimal homeAvgHalfLosts)
-						? homeAvgHalfLosts
-						: 0;
+					game.HomeAvgHalfLosts = decimal.TryParse(homeAnalytics[2].TextContent, out decimal homeAvgHalfLosts) ? homeAvgHalfLosts : 0;
 					game.HomeAvgLosts = decimal.TryParse(homeAnalytics[3].TextContent, out decimal homeAvgLosts) ? homeAvgLosts : 0;
 
 					var awayAnalytics = teamAnalytics5Element[1].GetElementsByTagName("td");
-					game.AwayAvgHalfGoals = decimal.TryParse(awayAnalytics[0].TextContent, out decimal awayAvgHalfGoals)
-						? awayAvgHalfGoals
-						: 0;
+					game.AwayAvgHalfGoals = decimal.TryParse(awayAnalytics[0].TextContent, out decimal awayAvgHalfGoals) ? awayAvgHalfGoals : 0;
 					game.AwayAvgGoals = decimal.TryParse(awayAnalytics[1].TextContent, out decimal awayAvgGoals) ? awayAvgGoals : 0;
-					game.AwayAvgHalfLosts = decimal.TryParse(awayAnalytics[2].TextContent, out decimal awayAvgHalfLosts)
-						? awayAvgHalfLosts
-						: 0;
+					game.AwayAvgHalfLosts = decimal.TryParse(awayAnalytics[2].TextContent, out decimal awayAvgHalfLosts) ? awayAvgHalfLosts : 0;
 					game.AwayAvgLosts = decimal.TryParse(awayAnalytics[3].TextContent, out decimal awayAvgLosts) ? awayAvgLosts : 0;
 
 					return game;
