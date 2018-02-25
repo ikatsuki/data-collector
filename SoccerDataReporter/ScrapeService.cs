@@ -23,12 +23,12 @@ namespace SoccerDataReporter
 					.Select(e => e.Children.Last())
 					.FirstOrDefault()?
 					.Children
-					.Where(c => c.TextContent.Contains(" Goal "))
+					.Where(c => c.TextContent.Contains("\'") && c.TextContent.Contains(" Goal "))
 					.Select(c => Regex.Replace(c.TextContent.Replace("-", ""), "\\+\\d", "").Split('\''))
 					.Select(e => new GameEvent
 					{
 						GoalTime = int.TryParse(e[0]?.Trim(), out int time) ? time : 0,
-						Team = e[1]?.Trim()
+						Team = e.Length > 1 ? e[1]?.Trim() : string.Empty
 					}).ToList();
 			}
 

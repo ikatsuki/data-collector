@@ -44,8 +44,9 @@ namespace SoccerDataCollector
 			}
 			catch (Exception e)
 			{
-				context.Logger.LogLine($"can't get games from site.\n exception {e}");
-				return $"can't get games from site.\n exception {e}";
+				context.Logger.LogLine("happen error.");
+				context.Logger.LogLine($"exception {e}");
+				return "can't get games from site";
 			}
 
 			var method1Games = await SoccerService.GetMethod1GamesAsync(inPlayGammes);

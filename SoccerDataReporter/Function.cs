@@ -24,7 +24,7 @@ namespace SoccerDataReporter
 		/// <returns></returns>
 		public async Task<dynamic> FunctionHandler(dynamic input, ILambdaContext context)
 		{
-			var now = DateTime.Now;
+			var now = DateTime.Now.AddDays(-1);
 			context.Logger.LogLine($"SoccerDataReporter start at {now:yyyy-MM-dd HH:mm}");
 			context.Logger.LogLine($"input: {input}");
 
