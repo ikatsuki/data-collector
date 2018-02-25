@@ -67,7 +67,7 @@ AvgHL:{game.HomeAvgHalfLosts}-{game.AwayAvgHalfLosts}
 AvgL: {game.HomeAvgLosts}-{game.AwayAvgLosts}").ToList();
 		}
 
-		public async Task<string> PushDailyReportAsync(IEnumerable<Report> reports)
+		public async Task<string> PushDailyReportAsync(IList<Report> reports)
 		{
 			const string type = "text";
 			var messages = GenerateMessage(reports);
@@ -96,74 +96,28 @@ AvgL: {game.HomeAvgLosts}-{game.AwayAvgLosts}").ToList();
 			return json;
 		}
 
-		private static string[] GenerateMessage(IEnumerable<Report> reports)
+		private static string[] GenerateMessage(IList<Report> reports)
 		{
 			var message = string.Empty;
-			int method1Win = 0, method1All = 0, method2Win = 0, method2All = 0, method3Win = 0, method3All = 0;
-			foreach (var r in reports)
-			{
-				if (r.Method == 1)
-				{
-					if (r.Events == null)
-					{
-						message += $"M1 - {r.DetailUrl}\n";
-						continue;
-					}
-
-					method1All += 1;
-					if (r.Method == 1 && r.Events.Any(e => e.GoalTime > r.Time && e.GoalTime <= 45))
-					{
-						method1Win += 1;
-						message += $"M1 o {r.DetailUrl}\n";
-					}
-					else
-					{
-						message += $"M1 x {r.DetailUrl}\n";
-					}
-				}
-				else if (r.Method == 2)
-				{
-					if (r.Events == null)
-					{
-						message += $"M2 - {r.DetailUrl}\n";
-						continue;
-					}
-
-					method2All += 1;
-					if (r.Method == 2 && r.Events.Any(e => e.GoalTime > r.Time && e.GoalTime <= 90))
-					{
-						method2Win += 1;
-						message += $"M2 o {r.DetailUrl}\n";
-					}
-					else
-					{
-						message += $"M2 x {r.DetailUrl}\n";
-					}
-				}
-				else if (r.Method == 3)
-				{
-					if (r.Events == null)
-					{
-						message += $"M3 - {r.DetailUrl}\n";
-						continue;
-					}
-
-					method3All += 1;
-					if (r.Method == 3 && r.Events.Any(e => e.GoalTime > r.Time && e.GoalTime <= 45))
-					{
-						method3Win += 1;
-						message += $"M3 o {r.DetailUrl}\n";
-					}
-					else
-					{
-						message += $"M3 x {r.DetailUrl}\n";
-					}
-				}
-			}
+			var method1Win = reports.Count(r => r.Method == 1 && (r.Win ?? false));
+			var method1All = reports.Count(r => r.Method == 1);
+			var method2Win = reports.Count(r => r.Method == 2 && (r.Win ?? false));
+			var method2All = reports.Count(r => r.Method == 2);
+			var method3Win = reports.Count(r => r.Method == 3 && (r.Win ?? false));
+			var method3All = reports.Count(r => r.Method == 3);
 
 			if (method1All != 0) message += $"M1 勝率： {method1Win}/{method1All} = {(decimal)method1Win / method1All:P0}\n";
 			if (method2All != 0) message += $"M2 勝率： {method2Win}/{method2All} = {(decimal)method2Win / method2All:P0}\n";
 			if (method3All != 0) message += $"M3 勝率： {method3Win}/{method3All} = {(decimal)method3Win / method3All:P0}\n";
+
+			foreach (var r in reports)
+			{
+				if(r.Win == null)
+					continue;
+
+				message += $"M{r.Method} {((bool)r.Win ? "o" : "x")} {r.Category} {r.HomeTeam} {r.HomeScore} vs {r.AwayScore} {r.AwayTeam}\n";
+			}
+
 			return SubstringAtCount(message, 2000);
 		}
 

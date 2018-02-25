@@ -97,7 +97,8 @@ namespace Core
 				.ToList();
 
 			var home = common
-				.Where(g => g.HomeOdds == default(decimal) || g.HomeOdds < g.AwayOdds / (8 * (Math.Abs(g.HomeScore - g.AwayScore) + 1)))
+				.Where(g => g.HomeOdds == default(decimal) ||
+				            g.HomeOdds < g.AwayOdds / (8 * (Math.Abs(g.HomeScore - g.AwayScore) + 1)))
 				.Where(g => g.HomeDangerousAttacks >= g.AwayDangerousAttacks * 1.5)
 				.Where(g => g.HomeAttacks > g.AwayAttacks)
 				.Where(g => g.HomeOnTarget + g.HomeOffTarget > g.AwayOnTarget + g.AwayOffTarget)
@@ -106,7 +107,8 @@ namespace Core
 				.ToList();
 
 			var away = common
-				.Where(g => g.AwayOdds == default(decimal) || g.AwayOdds < g.HomeOdds / (8 * (Math.Abs(g.HomeScore - g.AwayScore) + 1)))
+				.Where(g => g.AwayOdds == default(decimal) ||
+				            g.AwayOdds < g.HomeOdds / (8 * (Math.Abs(g.HomeScore - g.AwayScore) + 1)))
 				.Where(g => g.AwayDangerousAttacks >= g.HomeDangerousAttacks * 1.5)
 				.Where(g => g.AwayAttacks > g.HomeAttacks)
 				.Where(g => g.AwayOnTarget + g.AwayOffTarget > g.HomeOnTarget + g.HomeOffTarget)
@@ -133,6 +135,33 @@ namespace Core
 				targetGame.Id = $"{targetGame.Id}${methodNo}";
 				targetGame.Method = methodNo;
 			}
+		}
+
+		public static bool? GetMethodResult(Report report)
+		{
+			if (report.Events == null)
+				return null;
+
+			switch (report.Method)
+			{
+				case 1:
+				case 3:
+					return GetHalfTimeResult(report);
+				case 2:
+					return GetFullTimeResult(report);
+			}
+
+			return false;
+		}
+
+		private static bool GetHalfTimeResult(Report report)
+		{
+			return report.Events.Any(e => e.GoalTime > report.Time && e.GoalTime <= 45);
+		}
+
+		private static bool GetFullTimeResult(Report report)
+		{
+			return report.Events.Any(e => e.GoalTime > report.Time && e.GoalTime <= 90);
 		}
 	}
 }

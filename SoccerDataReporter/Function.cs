@@ -33,7 +33,7 @@ namespace SoccerDataReporter
 			foreach (var report in reports)
 			{
 				report.Events = await ScrapeService.GetGameEventsAsync(report);
-
+				report.Win = SoccerService.GetMethodResult(report);
 			}
 			
 			context.Logger.LogLine($"report count: {reports.Count}");
