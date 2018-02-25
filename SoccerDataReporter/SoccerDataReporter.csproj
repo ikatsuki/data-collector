@@ -8,8 +8,6 @@
   <ItemGroup>
     <PackageReference Include="Amazon.Lambda.Core" Version="1.0.0" />
     <PackageReference Include="Amazon.Lambda.Serialization.Json" Version="1.1.0" />
-    <PackageReference Include="AngleSharp" Version="0.9.9.1" />
-    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.3.5" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\Model\Model.csproj" />
   </ItemGroup>
 

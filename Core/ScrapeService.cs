@@ -163,5 +163,24 @@ namespace Core
 					Team = e.Length > 1 ? e[1]?.Trim() : string.Empty
 				}).ToList();
 		}
+
+		public async Task<IList<GameEvent>> GetGameEventsAsync(Report game)
+		{
+			var gameDetail = await GetHtmlDocumentAsync(game.DetailUrl);
+			return gameDetail.QuerySelectorAll(".panel > .panel-heading > .panel-title")
+				.Where(e => e.TextContent.Contains("Events"))
+				.Select(e => e.ParentElement.ParentElement)
+				.Where(e => e.ChildElementCount > 1)
+				.Select(e => e.Children.Last())
+				.FirstOrDefault()?
+				.Children
+				.Where(c => c.TextContent.Contains("\'") && c.TextContent.Contains(" Goal "))
+				.Select(c => Regex.Replace(c.TextContent.Replace("-", ""), "\\+\\d", "").Split('\''))
+				.Select(e => new GameEvent
+				{
+					GoalTime = int.TryParse(e[0]?.Trim(), out int time) ? time : 0,
+					Team = e.Length > 1 ? e[1]?.Trim() : string.Empty
+				}).ToList();
+		}
 	}
 }
