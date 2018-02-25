@@ -30,7 +30,12 @@ namespace SoccerDataReporter
 
 			var reportDate = $"{now:yyyyMMdd}";
 			var reports = await SoccerDataAccessor.GetGamesForReportAsync(reportDate);
-			reports = await ScrapeService.GetGameEventsAsync(reports);
+			foreach (var report in reports)
+			{
+				report.Events = await ScrapeService.GetGameEventsAsync(report);
+
+			}
+			
 			context.Logger.LogLine($"report count: {reports.Count}");
 
 			var reportMessage = await NotificationService.PushMessagesAsync(reports, context);
