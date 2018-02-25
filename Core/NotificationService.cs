@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Model;
 
-namespace SoccerDataCollector
+namespace Core
 {
-	class NotificationService
+	public class NotificationService
 	{
 		private static string LineApiRootEndpoint => "https://api.line.me";
 		private static string LineApiPushMessageEndpoint => LineApiRootEndpoint + "/v2/bot/message/push";

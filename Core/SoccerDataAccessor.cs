@@ -7,7 +7,7 @@ using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
 using Model;
 
-namespace SoccerDataCollector
+namespace Core
 {
 	public class SoccerDataAccessor
 	{

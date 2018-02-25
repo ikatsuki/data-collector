@@ -9,7 +9,7 @@ using AngleSharp.Dom.Html;
 using AngleSharp.Parser.Html;
 using Model;
 
-namespace SoccerDataCollector
+namespace Core
 {
 	public class ScrapeService
 	{

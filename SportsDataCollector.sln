@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoccerDataReporter", "Socce
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoccerDataReporter.Tests", "SoccerDataReporter.Tests\SoccerDataReporter.Tests.csproj", "{7408DB13-8BDD-401B-A075-B2C2E750EF39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{D60AAFAF-91C2-42E4-AA26-6BD88B218EF7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Model", "Model\Model.csproj", "{D60AAFAF-91C2-42E4-AA26-6BD88B218EF7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{90FF9FDD-E972-45C6-BF9C-820898ACE0AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{D60AAFAF-91C2-42E4-AA26-6BD88B218EF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D60AAFAF-91C2-42E4-AA26-6BD88B218EF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D60AAFAF-91C2-42E4-AA26-6BD88B218EF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90FF9FDD-E972-45C6-BF9C-820898ACE0AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90FF9FDD-E972-45C6-BF9C-820898ACE0AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90FF9FDD-E972-45C6-BF9C-820898ACE0AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90FF9FDD-E972-45C6-BF9C-820898ACE0AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
