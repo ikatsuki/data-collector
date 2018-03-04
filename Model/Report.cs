@@ -37,5 +37,6 @@ namespace Model
 		public decimal AwayAvgLosts { get; set; }
 		public string DetailUrl { get; set; }
 		public bool? Win { get; set; }
+		public string GoalTimes { get; set; }
 	}
 }

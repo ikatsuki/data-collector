@@ -1,7 +1,10 @@
 using System;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Amazon.Lambda.Core;
 using Core;
+using CsvHelper;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
@@ -34,11 +37,24 @@ namespace SoccerDataReporter
 			{
 				report.Events = await ScrapeService.GetGameEventsAsync(report);
 				report.Win = SoccerService.GetMethodResult(report);
+				report.GoalTimes = string.Join("-", report.Events.Select(e => e.GoalTime));
 			}
 			
 			context.Logger.LogLine($"report count: {reports.Count}");
 
 			var reportMessage = await NotificationService.PushDailyReportAsync(reports);
+
+			var fileName = $"soccer-report-{reportDate}.csv";
+			var filePath = $@"/tmp/{fileName}";
+
+			using (var textWriter = File.CreateText(filePath))
+			{
+				var csv = new CsvWriter(textWriter);
+				csv.WriteRecords(reports);
+			}
+
+			var response = await SoccerDataAccessor.UploadCsvFile(filePath);
+			context.Logger.LogLine($"upload csv file to s3. status = {response.HttpStatusCode}");
 
 			context.Logger.LogLine("SoccerDataReporter end");
 

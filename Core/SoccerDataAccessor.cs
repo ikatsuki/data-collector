@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
+using Amazon.S3;
+using Amazon.S3.Model;
 using Model;
 
 namespace Core
@@ -13,6 +15,7 @@ namespace Core
 	{
 		private static string DynamodbStatsTableName => "SoccerStats";
 		private static string DynamodbReportTableName => "SoccerDailyReport";
+		private static string SoccerReportS3BucketName => "ik-sports-data";
 
 		public async Task<PutItemResponse[]> PutGamesAsync(IEnumerable<Game> games)
 		{
@@ -192,6 +195,20 @@ namespace Core
 							AwayAvgLosts = i.TryGetValue(nameof(Report.AwayAvgLosts), out AttributeValue awayAvgLosts) ? decimal.Parse(awayAvgLosts.N) : default(decimal),
 							DetailUrl = i[nameof(Report.DetailUrl)].S,
 						}).ToList();
+			}
+		}
+
+		public async Task<PutObjectResponse> UploadCsvFile(string filePath)
+		{
+			using (var client = new AmazonS3Client())
+			{
+				var request = new PutObjectRequest
+				{
+					BucketName = SoccerReportS3BucketName,
+					FilePath = filePath
+				};
+
+				return await client.PutObjectAsync(request);
 			}
 		}
 	}

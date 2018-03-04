@@ -45,7 +45,6 @@ namespace SoccerDataCollector
 			}
 			catch (Exception e)
 			{
-				context.Logger.LogLine("happen error.");
 				context.Logger.LogLine($"exception {e}");
 				return "can't get games from site";
 			}

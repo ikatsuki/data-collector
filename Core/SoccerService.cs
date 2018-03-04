@@ -58,6 +58,7 @@ namespace Core
 			var common = games
 				.Where(g => Math.Abs(g.HomeScore - g.AwayScore) >= 4)
 				.Where(g => g.Time >= 73 && g.Time <= 80)
+				.Where(g => g.Events.Any(e => e.GoalTime > 45 && e.GoalTime < 80))
 				.ToList();
 
 			var home = common
