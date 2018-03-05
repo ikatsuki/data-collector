@@ -37,7 +37,7 @@ namespace SoccerDataReporter
 			{
 				report.Events = await ScrapeService.GetGameEventsAsync(report);
 				report.Win = SoccerService.GetMethodResult(report);
-				report.GoalTimes = string.Join("-", report.Events.Select(e => e.GoalTime));
+				report.GoalTimes = report.Events == null ? null : string.Join("-", report.Events.Select(e => e.GoalTime));
 			}
 			
 			context.Logger.LogLine($"report count: {reports.Count}");
