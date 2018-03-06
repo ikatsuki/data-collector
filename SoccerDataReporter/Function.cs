@@ -25,13 +25,15 @@ namespace SoccerDataReporter
 		/// <param name="input"></param>
 		/// <param name="context"></param>
 		/// <returns></returns>
-		public async Task<dynamic> FunctionHandler(dynamic input, ILambdaContext context)
+		public async Task<dynamic> FunctionHandler(Event input, ILambdaContext context)
 		{
-			var now = DateTime.Now.AddDays(-1);
-			context.Logger.LogLine($"SoccerDataReporter start at {now:yyyy-MM-dd HH:mm}");
-			context.Logger.LogLine($"input: {input}");
+			if (!DateTime.TryParse(input.Time, out DateTime inputDt))
+				return input;
 
-			var reportDate = $"{now:yyyyMMdd}";
+			context.Logger.LogLine($"SoccerDataReporter start at {DateTime.Now:yyyy-MM-dd HH:mm}");
+			var reportDate = $"{inputDt.AddDays(-1):yyyyMMdd}";
+			context.Logger.LogLine($"reportDate: {reportDate}");
+
 			var reports = await SoccerDataAccessor.GetGamesForReportAsync(reportDate);
 			foreach (var report in reports)
 			{
