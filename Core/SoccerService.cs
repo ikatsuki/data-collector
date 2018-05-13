@@ -18,6 +18,7 @@ namespace Core
 			var common = games
 				.Where(g => g.HomeScore + g.AwayScore == 0)
 				.Where(g => g.Time >= 18 && g.Time <= 35)
+				.Where(g => g.Category.IndexOf("women", StringComparison.OrdinalIgnoreCase) < 0)
 				.ToList();
 
 			var home = common
