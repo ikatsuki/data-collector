@@ -167,7 +167,7 @@ namespace Core
 		public async Task<IList<GameEvent>> GetGameEventsAsync(Report game)
 		{
 			var gameDetail = await GetHtmlDocumentAsync(game.DetailUrl);
-			return gameDetail.QuerySelectorAll(".panel > .panel-heading > .panel-title")
+			return gameDetail.QuerySelectorAll(".card > .card-header > .card-title")
 				.Where(e => e.TextContent.Contains("Events"))
 				.Select(e => e.ParentElement.ParentElement)
 				.Where(e => e.ChildElementCount > 1)
