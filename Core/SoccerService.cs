@@ -79,7 +79,7 @@ namespace Core
 			var targetGames = home.Concat(away).ToList();
 			SetMethodNo(2, ref targetGames);
 
-			foreach (var game in home.Concat(away))
+			foreach (var game in targetGames)
 			{
 				var savedGameId = await SoccerDataAccessor.GetGameId(game.Id);
 				targetGames.RemoveAll(g => g.Id == savedGameId);

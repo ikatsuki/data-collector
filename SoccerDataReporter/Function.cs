@@ -37,7 +37,7 @@ namespace SoccerDataReporter
 			var reports = await SoccerDataAccessor.GetGamesForReportAsync(reportDate);
 			foreach (var report in reports)
 			{
-				report.Events = await ScrapeService.GetGameEventsAsync(report);
+				report.Events = await ScrapeService.GetGameEventsAsync(report.DetailUrl);
 				report.Win = SoccerService.GetMethodResult(report);
 				report.GoalTimes = report.Events == null ? null : string.Join("-", report.Events.Select(e => e.GoalTime));
 			}
