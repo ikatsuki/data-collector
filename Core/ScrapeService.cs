@@ -51,7 +51,7 @@ namespace Core
 					foreach (var info in infos)
 						SetDetail(info.GetElementsByTagName("td"), ref game);
 
-					SetGameEvents(gameDetail, ref game);
+					game.Events = GetGameEvents(gameDetail);
 
 					var teamAnalytics5Element = gameDetail.QuerySelector("#analyticsR5 tbody")?.GetElementsByTagName("tr");
 					if (teamAnalytics5Element == null) return game;
@@ -146,9 +146,9 @@ namespace Core
 			}
 		}
 
-		private static void SetGameEvents(IHtmlDocument doc, ref Game game)
+		public IList<GameEvent> GetGameEvents(IHtmlDocument gameDoc)
 		{
-			game.Events = doc.QuerySelectorAll(".panel > .panel-heading > .panel-title")
+			return gameDoc.QuerySelectorAll(".card > .card-header > .card-title")
 				.Where(e => e.TextContent.Contains("Events"))
 				.Select(e => e.ParentElement.ParentElement)
 				.Where(e => e.ChildElementCount > 1)
